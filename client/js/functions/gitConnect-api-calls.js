@@ -16,3 +16,4 @@ export function getRepoDetailFromGitConnect(githubname) {
   };
   return sendingrequest();
 }
+

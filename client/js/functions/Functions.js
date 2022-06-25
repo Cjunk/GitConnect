@@ -1,15 +1,12 @@
-import { renderFirstTimeRegistration } from "../components/render-first-time-registration.js";
+// import { renderFirstTimeRegistration } from "../components/render-first-time-registration.js";
 import { renderRego } from "../components/render-rego.js";
 import { renderLogin } from "../components/render-login.js";
 import { renderProfileEdit } from "../components/render-profile-edit.js";
-import { renderHome } from "../components/home-startup.js";
 import { renderProjectEdit } from "../components/render-project-edit.js";
-import { renderSearch } from "../components/render-repo-search.js";
 import { renderLanding } from "../components/render-landing.js";
 import { renderProfile } from "../components/render-profile.js";
 import { renderProject } from "../components/render-project.js";
-// import { renderRepoListBs } from "./render-repo-search.js";
-
+let PAGE_SHOWS = 0
 export function getCookie(cname) {
   let name = cname + "=";
   let decodedCookie = decodeURIComponent(document.cookie);
@@ -27,7 +24,7 @@ export function getCookie(cname) {
   return "";
 }
 /*
-        Cloudinary Function for uploading images to the GitConnect server
+Cloudinary Function for uploading images to the GitConnect server
 
  Copy and past the below import statement to the top of your code.
 
@@ -36,7 +33,6 @@ export function getCookie(cname) {
  Also.....ensure there is a input for the user to select the file  <input type="file" name="upload" multiple="multiple" /><br/>
  SYNTAX: imageUploader.uploadProfileImage(<FORM DATA>)
 */
-
 const uploadType = {
   profileImage: 1,
   projectImage: 2,
@@ -48,7 +44,6 @@ export function uploadProfileImage(theFormData) {
 export function uploadProjectImage(theFormData) {
   __uploadImageToGitConnect(theFormData, uploadType.projectImage);
 }
-
 //      Private functions
 function __uploadImageToGitConnect(theForm, type) {
   // theForm must include the file and the user ID
@@ -72,7 +67,7 @@ export const page = {
   FirstTimeRegistration: 1,
   Login: 2,
   ProfileEdit: 3,
-  Home: 4,
+  Home: 0,
   Rego: 5,
   ProjectEdit: 6,
   SearchRepos: 7,
@@ -81,6 +76,8 @@ export const page = {
   Project: 10,
 };
 export function whichPageToShow(thePageToShow, data) {
+  console.log("PAGE SHOWS = ",PAGE_SHOWS)
+  PAGE_SHOWS++;
   switch (thePageToShow) {
     case page.FirstTimeRegistration:
       renderRego(); // The landing page when the user first registers
@@ -94,9 +91,9 @@ export function whichPageToShow(thePageToShow, data) {
     case page.ProfileEdit:
       renderProfileEdit();
       break;
-    case page.Home:
-      renderHome();
-      break;
+    // case page.Home:
+    //   renderHome();
+    //   break;
     case page.ProjectEdit:
       renderProjectEdit();
       break;
