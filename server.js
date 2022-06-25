@@ -9,7 +9,6 @@ require("dotenv").config();
 //commented out for now - was causing an error with something I was doing - Danny
 
 // const { exit } = require("process");
-
 const express = require("express");
 const expressSession = require("express-session");
 const pgSession = require("connect-pg-simple")(expressSession);
