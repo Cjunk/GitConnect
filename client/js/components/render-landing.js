@@ -1,12 +1,26 @@
 import { makeAnEl } from "../../utils/dom-create.js";
 import { makeAnImg } from "../../utils/dom-create.js";
-import { whichPageToShow, page } from "../functions/Functions.js";
-import { shuffle } from "../functions/Functions.js"
+import { whichPageToShow, page,shuffle } from "../functions/Functions.js";
 export function renderLanding() {
+  const main = document.getElementById("main");
+  const heroDiv = makeAnEl("div");
+  const homeLogo = document.createElement("img");
+  main.innerHTML = "";
+
+  // temporariiy removing search-boxes (sorry Danny)
+  heroDiv.style.display = "flex";
+  heroDiv.style.justifyContent = "center";
+  main.appendChild(heroDiv);
+  // setting logo
+  homeLogo.src = "./img/gclogo.png";
+  homeLogo.setAttribute("id", "home-logo");
+  homeLogo.style.textAlign = "center";
+  heroDiv.appendChild(homeLogo);
+
   // storing cards in results
   const results = document.getElementById("results");
-  const main = document.getElementById("main");
-  main.innerHTML = "";
+//   const main = document.getElementById("main");
+//   main.innerHTML = "";
   whichPageToShow(page.Home,'');
   const cardContainer = makeAnEl(
     "div",
@@ -51,7 +65,7 @@ export function renderLanding() {
         userCard.addEventListener("click", (event) => {
           // console.log(event.target)
           if (event.target.classList.contains("click-to-profile")) {
-            whichPageToShow(page.Profile);
+            whichPageToShow(page.Profile,userid);
           } else {
             whichPageToShow(page.Project, repoid);
           }

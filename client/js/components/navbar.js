@@ -116,36 +116,30 @@ export function renderNav() {
             <input class="form-control ms-5 me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-light" type="submit">Search</button>
           `;
-
+        // clearing font weight for navbar links
         // navBar.appendChild(editProfileForm);
         editProfileForm.addEventListener("click", () => {
-          weightClear();
           editProfileForm.style.fontWeight = "500";
           whichPageToShow(page.ProfileEdit, "");
         });
 
         addRepoForm.addEventListener("click", () => {
-          weightClear();
           addRepoForm.style.fontWeight = "500";
           renderRepoListBs(githubName, id);
         });
 
         editRepoForm.addEventListener("click", () => {
-          weightClear();
           editRepoForm.style.fontWeight = "500";
           whichPageToShow(page.ProjectEdit, "");
         });
         viewProfile.addEventListener("click", () => {
-          weightClear();
           viewProfile.style.fontWeight = "500";
           whichPageToShow(page.Profile, id);
         });
         viewProject.addEventListener("click", () => {
-          weightClear();
           viewProject.style.fontWeight = "500";
           whichPageToShow(page.Project, "");
         });
-        whichPageToShow(page.Landing, result.data.githubname);
       } else {
         const logInNav = makeAnEl("a", {
           className: "nav-link",
@@ -175,12 +169,4 @@ export function renderNav() {
     });
   };
   sendingrequest();
-}
-// clearing font weight for navbar links
-function weightClear() {
-  editProfileForm.style.fontWeight = "300";
-  editRepoForm.style.fontWeight = "300";
-  addRepoForm.style.fontWeight = "300";
-  viewProfile.style.fontWeight = "300";
-  viewProject.style.fontWeight = "300";
 }
