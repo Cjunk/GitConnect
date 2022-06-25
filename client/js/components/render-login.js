@@ -46,7 +46,8 @@ let form = document.getElementById('login-form')
         .then((response) => {
             window.location = '/';
         })
-        .catch(err => {
+            .catch(err => {
+            console.log("RENDER LOGIN ERROR")
             console.log(err);
             console.log(err.response.data)
             console.log('error');

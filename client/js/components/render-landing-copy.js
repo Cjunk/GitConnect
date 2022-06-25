@@ -43,7 +43,6 @@ export function renderLanding() {
     `
     axios.get('/api/projects')
         .then(dbRes => {
-            console.log(dbRes)
             const repoResults = makeAnEl('div', {
                 class: ["row", "px-3", "py-5"],
             })

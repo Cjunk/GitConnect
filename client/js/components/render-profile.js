@@ -5,7 +5,7 @@ import { renderProject } from './render-project.js';
 import { renderRepoListBs } from './render-repo-search.js';
 
 export function renderProfile(id) {
-    console.log(id)
+
     // username = username.toLowerCase();
     const main = document.getElementById("main");
     main.innerHTML = "";
@@ -15,9 +15,7 @@ export function renderProfile(id) {
     results.innerHTML = ""
    
     axios.get(`/api/profiles/profilepage/${id}`).then((result) => {
-        console.log(result)
-        
-        
+
         // Result contains info on profile and projects - seperate profile data
         let profileData = result.data.user;
         console.log(profileData)
@@ -71,7 +69,6 @@ export function renderProfile(id) {
         // Need to check there is at least one project otherwise keep it blank
         if (projectData.length >= 1) {
            projectOne = projectData[0];
-            console.log(projectOne)
            projectOneUpdatedAt = projectOne.updated_at;
            projectOneCreatedAt = projectOne.created_at;
            projectOneLicense = projectOne.license;
@@ -235,12 +232,6 @@ export function renderProfile(id) {
             }
             
         })
-
-        // Just testing different img sizes
-        console.log(makeAnImg(1320, 240))
-        console.log(makeAnImg(1300, 150))
-        console.log(makeAnImg(1320, 150))
-        console.log(makeAnImg(1000, 200))
 
         // For projects 2 onward, we use a loop as these are standard styling
         projectData.forEach((project, index) => {

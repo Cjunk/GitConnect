@@ -203,10 +203,8 @@ export function renderRepoListBs(userName, userid) {
 
 
             if (response.fork) {
-                console.log('forked!')
                 row.appendChild(repoDiv);
-            } else {
-                console.log('not forked') 
+            } else { 
             // languagePct(userName, repoName)
             row.appendChild(repoDiv);
             }
@@ -247,7 +245,6 @@ export function renderRepoListBs(userName, userid) {
                 console.log(`${key}: ${value}`);
                 let repoToggle = document.getElementById(`${repoName}-toggle`)
                 if (key === 'license' && value == null) {
-                    console.log('no license')
                     repoToggle.dataset.licensetype = 'No license';
                 } else if (key === 'license' && value !== null) {
                     repoToggle.dataset.licensetype = value.name;
@@ -266,7 +263,7 @@ function addSelectedRepos(reponame, userName, userid, repoData) {
     // console.log(licenseArr)
     // console.log(repoData)
     const repoDataObj = Object.assign({}, repoData);
-    console.log(repoDataObj)
+    console.log("redner-repo-search.js repoDataObj",repoDataObj)
 
 
         console.log(`id in add selected repos is ${userid}`)
@@ -385,7 +382,6 @@ function listUserRepos(userName) {
 
             // attach an event listener to the button that sends information on event itself
             selectRepoButton.addEventListener("click", (event) => {
-                console.log('hey')
                 console.log(event.target)
                 findRepo(event);
               
@@ -412,7 +408,6 @@ function findRepo(clickedRepo) {
     //get individual repo info and return
     axios.get(repoURL).then((response) => {
         console.log(response);
-
         //clear the results list (refactor this to attach to main & create results list)
         resultsList.innerHTML = '';
 

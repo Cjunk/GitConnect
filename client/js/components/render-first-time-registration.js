@@ -4,7 +4,7 @@
 */
 import * as gitConnectAPI from "./gitConnect-api-calls.js";
 import * as gitHubApiCalls from "./gitHubApiCalls.js";
-import { whichPageToShow,page } from "./Function-whichPageToShow.js"
+import {whichPageToShow,page} from "../functions/Functions.js"
 
 export function renderFirstTimeRegistration(gitHubName) {
   const results = document.getElementById('results')
@@ -49,7 +49,6 @@ export function renderFirstTimeRegistration(gitHubName) {
     async () => {
       const resp = async () => {
         const GitConnectUserRepoData = await gitConnectAPI.getRepoDetailFromGitConnect(gitHubName);
-        console.log(GitConnectUserRepoData);
           (async () => {
             const resp2 = async () => {
               const usersGitHubOverview = await gitHubApiCalls.getTheUsersDetailsFromGitHub(gitHubName);
@@ -68,8 +67,6 @@ export function renderFirstTimeRegistration(gitHubName) {
             await resp2();
           })();        
         if (!GitConnectUserRepoData.data.length) {
-          console.log("user has no repo data in GitConnect base"); // TODO: delete this console.log
-          console.log(GitConnectUserRepoData); // TODO: delete this console.log  its the repo data from GitConnect
           //  TODO: At this point the user is only registered if a valid github member
           //  If they have no repo data in our database its because its first time register or no repos on github
           //  FIXME: This code assumes its always a first time register for now. Later this needs to be changed.

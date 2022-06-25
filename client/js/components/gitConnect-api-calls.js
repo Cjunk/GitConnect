@@ -10,7 +10,6 @@ export function getRepoDetailFromGitConnect(githubname) {
     return await axios
       .post(API_END)
       .then((result) => {
-        //console.log(getCookie("gitHubName"));
         return result;
       })
       .catch((err) => {});

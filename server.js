@@ -15,6 +15,7 @@ const pgSession = require("connect-pg-simple")(expressSession);
 const percentRound = require("percent-round");
 const db = require("./server/db/db");
 const bodyParser = require('body-parser');
+let API_CALLS = 0
 // ********************************************************************************************************************
 // CONSTANTS
 const appSecretKey = process.env.EXPRESS_SESSION_SECRET_KEY;
@@ -24,12 +25,15 @@ const app = express(); // Initialise the app
 // SET UP THE APP
 
 app.use("/", (req, res, next) => {
+ 
   // 3 paramaters = middleware
   if (
     !req.path.startsWith("/js/") &&
     !req.path.startsWith("/css/") &&
     !req.path.startsWith("/api/session") &&
-    !req.path.startsWith("/img/gclogo.png")
+    !req.path.startsWith("/img/gclogo.png") &&
+    !req.path.startsWith("/tmp/") &&
+    !req.path.startsWith("/utils/")
   ) {
     console.log("*************************************************************");
     console.log(`SERVER COMMUNICATION ${new Date()} ${req.method}`);
@@ -38,6 +42,7 @@ app.use("/", (req, res, next) => {
     console.log(`PARAMETERS = `);
     console.log(req.body);
     console.log(req.session);
+    console.log("API CALLS TO SERVER = ", API_CALLS++);
     console.log("*************************************************************");
   }
     next();  

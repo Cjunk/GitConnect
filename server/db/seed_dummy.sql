@@ -1,8 +1,8 @@
--- This file contains the data for testing while developing the socialmediaTypes
--- Once the site is fully functional, this file can be excluded from any database initialisation.
+-- -- This file contains the data for testing while developing the socialmediaTypes
+-- -- Once the site is fully functional, this file can be excluded from any database initialisation.
 
 
--- USERS
+-- -- USERS
 -- INSERT INTO users (githubName,email,userType,profiletype,firstName,lastName,photo,aboutmetitle,aboutme,mobile,portfoliolink,coverPhoto)
 -- VALUES ('CJunk','jsharman@hotmail.com.au',1,1,'Jericho','Sharman','https://avatars.githubusercontent.com/u/8306841?v=4','Full Stack Software Developer','yadda yadda More stuff goes here','0478816306','www.jerichosharman.com.au','https://res.cloudinary.com/dc7oti3kw/image/upload/v1655872201/CaptureGitCOnnect_s7jrvr.jpg');
 -- INSERT INTO users (githubName,email,userType,profiletype,firstName,lastName,photo,aboutmetitle,aboutme,mobile,portfoliolink) 

@@ -1,41 +1,10 @@
-// import { makeAnEl } from '../../utils/dom-create.js';
 import { renderProfile } from './render-profile.js';
-
-// id SERIAL PRIMARY KEY,
-// githubName TEXT,
-// email TEXT UNIQUE,
-// userType SMALLINT REFERENCES userTypes(id) NOT NULL,
-// profiletype SMALLINT REFERENCES profiletype(id),
-// firstName VARCHAR(20),
-// lastName VARCHAR(30),
-// photo TEXT,
-// aboutmetitle TEXT,
-// aboutme TEXT,
-// mobile VARCHAR(16),
-// portfoliolink TEXT,
-// githubuserurl TEXT,
-// gitHubAvatar TEXT,
-// gitHubrepos_url TEXT,
-// gitHubFullName TEXT,
-// gitHubCompany TEXT,
-// gitHubBlog TEXT,
-// gitHubTwitter TEXT,
-// gitHubHirable TEXT,
-// gitHubLocation TEXT,
-// gitHubBio TEXT,
-// gitHubMemberSince TEXT,
-// coverPhoto TEXT,
-
 export function renderProfileEdit(id) {
   axios.get(`api/profiles/profilepage/${id}`).then(result => {
-    console.log(result)
+    console.log("renderProfileEdit result = ",result)
  
     let profile = result.data.user
-    // .then(dbRes => {
-    //   console.log(dbRes.data)
-    // })
     let { firstname, lastname, aboutme, portfoliolink, location } = '';
-
     if (profile.firstname) {
       firstname = profile.firstname;
     }
@@ -52,7 +21,6 @@ export function renderProfileEdit(id) {
       location = profile.gitHubLocation;
     };
 
-   
     const main = document.getElementById('main');
     main.innerHTML = '';
     
@@ -109,12 +77,12 @@ export function renderProfileEdit(id) {
       axios
         .post(`/api/profiles/${id}`, data)
         .then((response) => {
-          console.log(response)
+          console.log("render-profile-edit api/profiles",response)
           renderProfile(id)
         })
         .catch((err) => {
-          console.log(err);
-          console.log(err.response.data);
+          console.log("render-profile-edit api/profiles",err);
+          console.log("render-profile-edit api/profiles",err.response.data);
           let errorMessage = err.response.data.message;
           alert(errorMessage);
         });
