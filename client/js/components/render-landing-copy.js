@@ -76,20 +76,7 @@ export function renderLanding() {
                 repoCol.appendChild(userCard)
                 
             })
-            
-    //         repoID TEXT PRIMARY KEY UNIQUE NOT NULL,
-    // gitHubRepoName TEXT,
-    // userID SMALLINT REFERENCES users(id),
-    // status BIT NOT NULL, -- Available for viewing Y or N
-    // projectName TEXT,
-    // description TEXT,
-    // process TEXT,
-    // challenges TEXT,
-    // outcomes TEXT,
-    // tags TEXT,
-    // titleimage TEXT
-            
-            
+                  
         })
         .catch(err => {
             console.log(err);

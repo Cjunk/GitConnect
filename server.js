@@ -9,10 +9,10 @@ require("dotenv").config();
 //commented out for now - was causing an error with something I was doing - Danny
 
 // const { exit } = require("process");
+const SERVER_COMMS_TAB_SPACING = 10
 const express = require("express");
 const expressSession = require("express-session");
 const pgSession = require("connect-pg-simple")(expressSession);
-const percentRound = require("percent-round");
 const db = require("./server/db/db");
 const bodyParser = require('body-parser');
 let API_CALLS = 0
@@ -35,23 +35,38 @@ app.use("/", (req, res, next) => {
     !req.path.startsWith("/tmp/") &&
     !req.path.startsWith("/utils/")
   ) {
+   
+    // console.log(`PARAMS 2: ${req.client.on}`);  
+    
     console.log("*************************************************************");
-    console.log(`SERVER COMMUNICATION ${new Date()} ${req.method}`);
-    console.log(`METHOD = ${req.method}`);
+    console.log("API CALLS TO SERVER = ", ++API_CALLS);    
+    console.log(`SERVER COMMUNICATION on ${new Date()} `);
+    console.log(
+      `METHOD = ${req.method.padEnd(SERVER_COMMS_TAB_SPACING)} PATH = ${req.path.padEnd(
+        SERVER_COMMS_TAB_SPACING
+      )} COOKIE id: ${req} `
+    );
+    console.log(`originalUrl: ${req.originalUrl.padEnd(SERVER_COMMS_TAB_SPACING)}`);  
+    console.log(`accept: ${req.cookies}`);
     console.log(`PATH = ${req.path}`);
     console.log(`PARAMETERS = `);
-    console.log(req.body);
-    console.log(req.session);
-    console.log("API CALLS TO SERVER = ", API_CALLS++);
+    // console.log(req);
+    console.log(`COOKIE id: ${req}`); 
     console.log("*************************************************************");
   }
+
     next();  
 });
+
+function dd(){
+  console.log("Hellow world")
+}
+
 app.use((err, req, res, next) => {
   // 4 parameters = error handeler
   console.log(`I am ERROR middleware ${new Date()} ${req.method} ${req.path}`);
   console.log(err);
-  res.status(500).json({ message: "Unknown SERVER/INSERT error occurred" });
+  res.status(500).json({ message: req });
   next();
 });
 app.use(express.urlencoded({ extended: false }));

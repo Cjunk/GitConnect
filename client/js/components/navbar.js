@@ -1,9 +1,9 @@
 import { makeAnEl } from "../../utils/dom-create.js";
 import { renderRepoListBs } from "./render-repo-search.js";
 import { whichPageToShow, page, logOut } from "../functions/Functions.js";
+import { callSessionAPI } from "../functions/gitConnect-api-calls.js";
 export function renderNav() {
   const navBar = document.getElementById("navbar");
-
   // creating a bootstrap container for logo
   const logoContainer = makeAnEl("a", {
     className: "navbar-brand",
@@ -17,7 +17,7 @@ export function renderNav() {
     alt: "Gitconnect logo",
   });
 
-  logoContainer.appendChild(logo);
+  logoContainer.appendChild(logo); 
   navBar.appendChild(logoContainer);
   logo.addEventListener("click", (event) => {
     window.location = "/";
@@ -56,7 +56,7 @@ export function renderNav() {
   const sendingrequest = async () => {
     // This is done as we have to wait for the response from the GitConnect server before rendering the page
     // temporary
-    const resp = await axios.get("/api/session").then((result) => {
+    callSessionAPI((result) => {
       if (result.data.success) {
         document.cookie = `gitHubName=${result.data.githubname}`;
         document.cookie = `email=${result.data.email}`;

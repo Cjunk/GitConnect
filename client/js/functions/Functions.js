@@ -91,9 +91,6 @@ export function whichPageToShow(thePageToShow, data) {
     case page.ProfileEdit:
       renderProfileEdit();
       break;
-    // case page.Home:
-    //   renderHome();
-    //   break;
     case page.ProjectEdit:
       renderProjectEdit();
       break;
@@ -133,3 +130,4 @@ export function shuffle(array) {
   }
   return array;
 }
+
