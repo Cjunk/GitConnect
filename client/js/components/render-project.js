@@ -1,62 +1,30 @@
 import { makeAnEl, makeAnImg } from "../../utils/dom-create.js";
-import { renderProfile } from "./render-profile.js";
-
+import { getProjectByRepoID } from "../functions/gitConnect-api-calls.js";
+import { whichPageToShow, page } from "../functions/Functions.js";
 export function renderProject(repoid) {
-    // clear main HTML
-    const main = document.getElementById("main");
-    main.innerHTML = "";
-
-    const results = document.getElementById('results')
-    results.innerHTML = "";
-    results.removeAttribute('class');
-    
-    axios.get(`/api/projects/${repoid}`)
-    .then(dbRes => {
-        // console.log(dbRes)
-
-        dbRes.data.map((user) => {
-            console.log(user);
-            // ---- need to pull app link from project-edit ----
-            let repoid = user.repoid;
-            let username = user.githubname;
-            let repoName = user.githubreponame;
-            let memberSince = user.githubmembersince;
-            let createdAt = user.created_at;
-            let avatar = user.githubavatar;
-            let location = user.githublocation;
-            let userid = user.id;
-            let projectName = user.projectname;
-            let challenges = user.challenges;
-            let outcomes = user.outcomes;
-            let process = user.process; 
-            let description = user.description;
-            let appLink = user.app_link;
-            let langOne = user.langone;
-            let langTwo = user.langtwo;
-            let langThree = user.langthree;
-            let langFour = user.langfour;
-            let license = user.license;
-
-
-           // language display
-           let languagesList = ""
-           for (const lang of [langOne, langTwo, langThree, langFour]) {
-               if (lang != null) {
-                   languagesList += lang
-               }
-           }
-           const languages = languagesList.split(" ").join(',')
-           
-            main.innerHTML = `
+  // clear main HTML
+  const main = document.getElementById("main");
+  const results = document.getElementById("results");
+  results.innerHTML = "";
+  results.removeAttribute("class");
+  getProjectByRepoID(repoid, (dbRes) => {
+    dbRes.data.map((user) => {
+      // ---- need to pull app link from project-edit ----
+      const languages = [user.langone, user.langtwo, user.langthree, user.langfour].filter((e) => e != null).join(",");
+      main.innerHTML = `
             <!-- Increase py on hero to make bigger vertically -->
             <div class="container-xxl bg-dark text-white">
                 <!-- Sidebar stuff -->
                 <div class="row">
                     <div class="col-md-2 pt-4 d-flex flex-column text-center" style="background-color: rgba(0, 0, 0, 0.25);">
-                        <img id="profile-picture" src="${avatar ? avatar : 'unknown'}" class="mx-auto my-4 img-thumbnail rounded-circle" alt="avatar" width="100" height="100">
-                        <h3>${username}</h3>
-                        <p id="user-location">${location}</p>
-                        <p class="sidebar-text">Member Since: ${memberSince.slice(0,10)}</p>
+                        <img id="profile-picture" src="${
+                          user.githubavatar ? user.githubavatar : "unknown"
+                        }" class="mx-auto my-4 img-thumbnail rounded-circle" alt="avatar" width="100" height="100">
+                        <h3>${user.githubname}</h3>
+                        <p id="user-location"${
+                          !user.githublocation ? "style='color:#a1a1a1ff;fontWeigth:300;'" : null}"
+                        }>${user.githublocation ? user.githublocation : "Location unknown"}</p>
+                        <p class="sidebar-text">Member Since: ${user.githubmembersince.slice(0, 10)}</p>
                         <div>
                             <a target="_blank" href="https://twitter.com"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16" style="margin:2px;">
                                 <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
@@ -74,7 +42,9 @@ export function renderProject(repoid) {
                     <!-- Hero image or carousel of project photos -->
                     <div class="col-md-10">
                         <div class="row">
-                            <div class="bg-dark text-secondary px-0 mx-0 my-0 py-0 text-center" style="background-image: url('${user.projectimageurl ? user.projectimageurl: makeAnImg(1400, 320)}'); background-size: cover;">
+                            <div class="bg-dark text-secondary px-0 mx-0 my-0 py-0 text-center" style="background-image: url('${
+                              user.projectimageurl ? user.projectimageurl : makeAnImg(1400, 320)
+                            }'); background-size: cover;">
                                 <div class="py-1">
                                     <h1 class="display-5 fw-bold text-white" style="height:300px"></h1>
                                     <div class="col-lg-6 mx-auto">
@@ -93,9 +63,13 @@ export function renderProject(repoid) {
 
                         <div class="row py-2">
                             <div class="col-md-12 text-center py-4">
-                                <h2 class="display-5 fw-bold">${projectName ? projectName : 'Project Title'}</h2>
-                                <p style="color: #a1a1a1ff">/${repoName} on 
-                                <a target="_blank" href="https://github.com/${username}/${repoName}" style="color: #a1a1a1ff">
+                                <h2 class="display-5 fw-bold">${
+                                  user.projectname ? user.projectname : "Project Title"
+                                }</h2>
+                                <p style="color: #a1a1a1ff">/${user.githubreponame} on 
+                                <a target="_blank" href="https://github.com/${user.githubname}/${
+        user.githubreponame
+      }" style="color: #a1a1a1ff">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
                                         <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
                                     </svg>
@@ -107,24 +81,24 @@ export function renderProject(repoid) {
                                 <div class="row mt-2 stext-center">
                                     <div class="col p-4 m-3 rounded" style="background-color: #272A30">
                                         <h4 class="text-start">Project Description</h4>
-                                        <p class="user-base-text text-start">${description}</p>
+                                        <p class="user-base-text text-start">${user.description}</p>
                                     </div>
 
                                     <div class="col p-4 m-3 rounded" style="background-color: #272A30">
                                         <h4 class="text-start">Project Process</h4>
-                                        <p class="user-base-text text-start">${process}</p>
+                                        <p class="user-base-text text-start">${user.process}</p>
                                     </div>
                                 </div>
 
                                 <div class="row mb-2 text-center">
                                     <div class="col p-4 m-3 rounded" style="background-color: #272A30">
                                         <h4 class="text-start">Project Challenges</h4>
-                                        <p class="user-base-text text-start">${challenges}</p>
+                                        <p class="user-base-text text-start">${user.challenges}</p>
                                     </div>
 
                                     <div class="col p-4 m-3 rounded" style="background-color: #272A30">
                                         <h4 class="text-start">Project Outcomes</h4>
-                                        <p class="user-base-text text-start">${outcomes}</p>
+                                        <p class="user-base-text text-start">${user.outcomes}</p>
                                     </div>
                                 </div>
                             </div>
@@ -135,9 +109,9 @@ export function renderProject(repoid) {
                                 <p class="text-start">Languages:</p>
                                 <p class="text-start sidebar-text">${languages}</p>
                                 <p class="text-start">License:</p>
-                                <p class="text-start sidebar-text">${license}</p>
+                                <p class="text-start sidebar-text">${user.license}</p>
                                 <p class="text-start">Created at:</p>
-                                <p class="text-start sidebar-text">${createdAt.slice(0,10)}</p>
+                                <p class="text-start sidebar-text">${user.created_at.slice(0, 10)}</p>
                             </div>
                             </div>
                         </div>
@@ -146,64 +120,54 @@ export function renderProject(repoid) {
 
                 
             `;
-
-            const iframeRender = makeAnEl('div')
-            iframeRender.innerHTML = `
+      if (user.app_link) {
+        const iframeRender = makeAnEl("div");
+        iframeRender.innerHTML = `
                 <div class="container">
                     <div class="row">
                         <div class="bg-dark text-secondary px-4 py-2 mb-3 text-center">
                             <div class="py-5">
                                 <h1 class="display-5 fw-semibold fst-italic text-white border-bottom">Sample</h1>
-                                    <iframe src="${appLink}" class="container-md" height="768px"></iframe>
+                                    <iframe src="${user.app_link}" class="container-md" height="768px"></iframe>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                `
-            // if no app link, do not append iframe
-            if (appLink != null) {
-                main.appendChild(iframeRender)
-            }
+                `;
+        // if no app link, do not append iframe
 
-            // profile picture redirect to profile
-            const profilePicture = document.getElementById('profile-picture')
-            profilePicture.addEventListener('click', () => {
-                renderProfile(userid)
-            });
+        main.appendChild(iframeRender);
+      }
 
-            // class for user base text
-            const userBaseText = document.querySelectorAll('.user-base-text')
-            for (const each of userBaseText) {
-                if (each.textContent == "" || each.textContent == "null") {
-                    each.textContent = "Not yet added"
-                    each.style.color = "#a1a1a1ff"
-                    each.style.fontWeight = "300"
-                } else {
-                    each.style.fontWeight = "400"
-                }
-            }
-            // class for secondary text
-            const sidebarText = document.querySelectorAll('.sidebar-text')
-            for (const each of sidebarText) {
-                if (each.textContent == "" || each.textContent == "null") {
-                    each.textContent = "Not yet added"
-                    each.style.color = "#a1a1a1ff"
-                    each.style.fontWeight = "300"
-                } else {
-                    each.style.color = "#a1a1a1ff"
-                    each.style.fontWeight = "300"
-                    each.style.fontSize = "1em"                }
-            }
-
-            // display unknown if location null
-            const userLocation = document.getElementById('user-location')
-            if (userLocation.textContent == "" || userLocation.textContent == "null" || userLocation.textContent == null) {
-                userLocation.textContent = "Location unknown"
-                userLocation.style.color = "#a1a1a1ff"
-                userLocation.style.fontWeight = "300"
-            }
-        })
-    })
-        
+      //   profile picture redirect to profile
+      document.getElementById("profile-picture").addEventListener("click", () => {
+        whichPageToShow(page.Profile,user.id);
+      });
+      // class for user base text
+      const userBaseText = document.querySelectorAll(".user-base-text");
+      for (const each of userBaseText) {
+        if (each.textContent == "" || each.textContent == "null") {
+          each.textContent = "Not yet added";
+          each.style.color = "#a1a1a1ff";
+          each.style.fontWeight = "300";
+        } else {
+          each.style.fontWeight = "400";
+        }
+      }
+      // class for secondary text
+      const sidebarText = document.querySelectorAll(".sidebar-text");
+      for (const each of sidebarText) {
+        if (each.textContent == "" || each.textContent == "null") {
+          each.textContent = "Not yet added";
+          each.style.color = "#a1a1a1ff";
+          each.style.fontWeight = "300";
+        } else {
+          each.style.color = "#a1a1a1ff";
+          each.style.fontWeight = "300";
+          each.style.fontSize = "1em";
+        }
+      }
+    });
+  });
 }

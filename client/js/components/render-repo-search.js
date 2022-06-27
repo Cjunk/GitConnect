@@ -376,8 +376,6 @@ function languagePct(userName, repoName) {
         let roundedLangPctArr = percentRound(langPctArr);
 
         //  get repodiv (currently MUST have id of the reponame) - this could be removed and handled when calling instead, thus only returning the arrays, but works for now
-        // let repoDiv = document.getElementById(`${repoName}`)
-
         // Now using the card body class to append (post bootstrap)
         let repoDiv = document.querySelector(`#${repoName} > .card-body`)
 

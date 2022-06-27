@@ -1,7 +1,7 @@
 import { renderProfile } from './render-profile.js';
+
 export function renderProfileEdit(id) {
   axios.get(`api/profiles/profilepage/${id}`).then(result => {
-    console.log("renderProfileEdit result = ",result)
  
     let profile = result.data.user
     let { firstname, lastname, aboutme, portfoliolink, location } = '';
@@ -61,7 +61,6 @@ export function renderProfileEdit(id) {
     </div>
 </div>
     `
-    let data = '';
     let form = document.getElementById("edit-profile-form");
     form.addEventListener("submit", (event) => {
       event.preventDefault();

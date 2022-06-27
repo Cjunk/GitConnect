@@ -67,9 +67,7 @@ router.post(`/login`, (req, res) => {
             res.cookie("gitConnectId", dbres.rows[0].id);
             res.cookie("email", dbres.rows[0].email);
             res.cookie("gitHubName", dbres.rows[0].githubname, { httpOnly: false });
-            res.status(200).json(req.session);
-
-
+            res.redirect("/");
           } else {
             //  Wrong password correct email.
             res.status(BAD_CREDENTIALS_STATUS).json({ status: false, message: BAD_CREDENTIALS });
