@@ -6,51 +6,10 @@ body {
   color: #a1a1a1ff;
 }
 
-/* .repo-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  margin-bottom: 30px;
-} */
-
 #profile-img {
   width: 150px;
 
-  /* border-radius: 50%;
-  margin-right: 20px; */
 }
-
-/* #search-boxes{
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-} */
-
-
-/* COMMENTING OUT FOR GARMONS CODE - RECOMMENT IF WEIRD  */
-/* #navbar-logo {
-  max-width: 20%;
-}
- */
-
-
-/* 
-#navbar {
-  background-color: #212224ff;
-  height: 45px;
-  display: flex;
-  flex-direction: row; 
-}
-
-*/
-/* #navbar-logo {
-  position: relative;
-  left: 10%;
-  height: 85%;
-  padding: 4px;
-} */
-
 
 #navbar-logo {
 
@@ -68,21 +27,3 @@ body {
   -ms-transform:rotate(45deg);
   -webkit-transform:rotate(45deg);
 }
-
-
-/* .navbar-links {
-  color: #a1a1a1ff;
-  margin: auto 40px;
-
-  position: relative;
-  left: 200px;
-}  */
-
-/* https://www.reddit.com/r/css/comments/nkjeyb/6_dark_mode_color_palettes_with_examples_css_and/
-CSS HEX
---rich-black-fogra-39: #111213ff;
---eerie-black: #212224ff;
---quick-silver: #a1a1a1ff;
---white: #ffffffff;
---blue-crayola: #2f71e8ff;
---cyan-process: #29b9f0ff; */

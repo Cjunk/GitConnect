@@ -9,13 +9,14 @@ require("dotenv").config();
 //commented out for now - was causing an error with something I was doing - Danny
 
 // const { exit } = require("process");
-const SERVER_COMMS_TAB_SPACING = 10
+const SERVER_COMMS_TAB_SPACING = 40
 const express = require("express");
 const expressSession = require("express-session");
 const pgSession = require("connect-pg-simple")(expressSession);
 const db = require("./server/db/db");
 const bodyParser = require('body-parser');
 let API_CALLS = 0
+let HIDDEN_API_CALLS = 0
 // ********************************************************************************************************************
 // CONSTANTS
 const appSecretKey = process.env.EXPRESS_SESSION_SECRET_KEY;
@@ -39,28 +40,27 @@ app.use("/", (req, res, next) => {
     // console.log(`PARAMS 2: ${req.client.on}`);  
     
     console.log("*************************************************************");
-    console.log("API CALLS TO SERVER = ", ++API_CALLS);    
-    console.log(`SERVER COMMUNICATION on ${new Date()} `);
+    console.log("API CALLS TO SERVER = ", ++API_CALLS,"HIDDEN API CALLS TO SERVER = ", HIDDEN_API_CALLS);  
+    console.log("**************************************************************************************************************************");
+    console.log(`* SERVER COMMUNICATION on ${new Date()} `);
     console.log(
-      `METHOD = ${req.method.padEnd(SERVER_COMMS_TAB_SPACING)} PATH = ${req.path.padEnd(
+      `* METHOD = ${req.method.padEnd(SERVER_COMMS_TAB_SPACING)} PATH = ${req.path.padEnd(
         SERVER_COMMS_TAB_SPACING
-      )} COOKIE id: ${req} `
+      )} HOST: ${req.headers.host} `
     );
-    console.log(`originalUrl: ${req.originalUrl.padEnd(SERVER_COMMS_TAB_SPACING)}`);  
-    console.log(`accept: ${req.cookies}`);
-    console.log(`PATH = ${req.path}`);
-    console.log(`PARAMETERS = `);
-    // console.log(req);
-    console.log(`COOKIE id: ${req}`); 
-    console.log("*************************************************************");
+    console.log(`* originalUrl: ${req.originalUrl.padEnd(SERVER_COMMS_TAB_SPACING)} PATH = ${req.path.padEnd(
+        SERVER_COMMS_TAB_SPACING
+      )} accept: ${req.cookies}`);   
+    console.log("* cookie = ", req.headers.cookie);
+    console.log(
+      "**************************************************************************************************************************"
+    );
+  }else{
+    HIDDEN_API_CALLS++;
   }
 
     next();  
 });
-
-function dd(){
-  console.log("Hellow world")
-}
 
 app.use((err, req, res, next) => {
   // 4 parameters = error handeler

@@ -1,5 +1,5 @@
 import { renderProfile } from './render-profile.js';
-
+import { getCookie } from '../functions/Functions.js';
 export function renderProfileEdit(id) {
   axios.get(`api/profiles/profilepage/${id}`).then(result => {
  
@@ -88,20 +88,4 @@ export function renderProfileEdit(id) {
       // console.log(data);
     }); 
   });
-}
-
-function getCookie(cname) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(";");
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == " ") {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
 }
